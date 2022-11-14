@@ -9,7 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
 
-import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.files.DownloadActions.click;
 import static org.openqa.selenium.By.className;
@@ -27,15 +27,15 @@ public class TextBoxTests {
 //        Configuration.browser = "safari";
     }
 
-//    @AfterAll
-//    static void closeWebSite (){
-//        sleep(5000L);
-//        closeWindow();
-//    }
+    @AfterAll
+    static void closeWebSite (){
+        sleep(5000L);
+        closeWindow();
+    }
 
     @Test
     void fillFormTest(){
-        Configuration.holdBrowserOpen = true; // Оставлять браузер открытым
+//        Configuration.holdBrowserOpen = true; // Оставлять браузер открытым
         open("login");
         $("#username").setValue("russpass_test@mail.ru");
         $("#auth_ok").click();
@@ -56,9 +56,29 @@ public class TextBoxTests {
         $("#birthDate").setValue("01.02.1987");
 
 //      $x("//span [@class = 'radio-group__item']").click(); // рабочий переключатель по классу
-        $x("//span [contains(text(), 'Женский')]").click(); // рабочий переключатель по тексту
-        sleep(5000); //ожидание 5 сек
-        $x("//span [@class = 'radio-group__item']").click();
+//      $x("//span [contains(text(), 'Мужской')]").click(); // рабочий переключатель по тексту
+//      sleep(5000); //ожидание 5 сек
+
+        $x("//span [contains(text(), 'Мужской')]").click();
+        $x("//span [contains(text(), 'Паспорт РФ')]").click();
+        $x("//*[@id = 'document.numberPassport']").setValue("1234123456");
+        $("[class = 'button button--primary']").click();
+
+//------------------------------------------------------------------------- Проверка на то что изменения применились
+        $("[class = 'button button--third button--square-md']").click();
+        sleep(3000);
+        $x("//div[text()='Основные данные']").click();
+
+        $("#firstName").shouldHave(value("Иван"));
+        $("#lastName").shouldHave(value("Иванов"));
+        $("#middleName").shouldHave(value("Иванович"));
+        $("#birthDate").shouldHave(value("01.02.1987"));
+
+        $x("//*[contains(text(), 'Пол')]/..//*[@class = 'radio-group__item radio-group__item--active']").shouldHave(text("Мужской"));
+        $x("//*[contains(text(), 'Тип документа')]/..//*[@class = 'radio-group__item radio-group__item--active']").shouldHave(text("Паспорт РФ"));
+
+        $x("//*[@id = 'document.numberPassport']").shouldHave(value("1234 123456"));
+
 
 
 
