@@ -3,6 +3,7 @@ package com.demoqa;
 import com.codeborne.selenide.Configuration;
 
 import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.files.DownloadActions.click;
 
 public class AuthorizationUtils  {
     public static String EMAIL = "russpass_test@mail.ru";
@@ -10,8 +11,7 @@ public class AuthorizationUtils  {
     public static String NUMBER = "88005559595";
 
     void authorizationByEmail() {
-//        $x("//*[text()='Вход']").click();
-        open("login");
+        $x("//*[@class = 'header-new__end']//button[@class = 'header-button']").click();
         $("#username").setValue(AuthorizationUtils.EMAIL);
         $("#auth_ok").click();
         $("#password").setValue(AuthorizationUtils.PASSWORD).pressEnter();

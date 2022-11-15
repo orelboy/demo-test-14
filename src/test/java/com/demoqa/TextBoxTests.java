@@ -20,10 +20,11 @@ public class TextBoxTests {
 
     @BeforeEach
      void config (){
-        Configuration.baseUrl = "https://portal.dev01.russpass.dev/";
+//        Configuration.baseUrl = "https://portal.dev01.russpass.dev/";
         Configuration.browserSize = "1920x1080";
         Configuration.timeout = 10000; //10 sec
 //        Configuration.browser = "safari";
+        open("https://portal.dev01.russpass.dev/");
     }
 
     @AfterEach
