@@ -11,15 +11,15 @@ import static org.openqa.selenium.remote.tracing.EventAttribute.setValue;
 
 public class TextBoxTests {
 
-    static AuthorizationUtils authorizationUtils;
+    static AuthorizationPage authorizationPage;
 
     @BeforeAll
     static void setUp() {
-        authorizationUtils = new AuthorizationUtils();
+        authorizationPage = new AuthorizationPage();
     }
 
     @BeforeEach
-     void config (){
+    void config() {
 //        Configuration.baseUrl = "https://portal.dev01.russpass.dev/";
         Configuration.browserSize = "1920x1080";
         Configuration.timeout = 10000; //10 sec
@@ -28,21 +28,20 @@ public class TextBoxTests {
     }
 
     @AfterEach
-    void closeWebSite(){
+    void closeWebSite() {
         sleep(5000L);
         closeWindow();
     }
 
     @Test
-    void fillFormTest(){
+    void fillFormTest() {
 //        Configuration.holdBrowserOpen = true; // Оставлять браузер открытым
-//        open("login");
-//        $("#username").setValue("russpass_test@mail.ru");
-//        $("#auth_ok").click();
-//        $("#password").setValue("Test1234!");
-//        $("#auth_ok").click();
 
-        authorizationUtils.authorizationByEmail();
+
+        String email = "russpass_test@mail.ru";
+        String password = "Test1234!";
+
+        authorizationPage.authorizeByEmailByDefaultUser();
 //------------------------------------------------------------------
         $("[class = 'button button--primary button--full-width cookie-banner-new__btn-ok']").click();   //закрыть банер
         $x("//div[text()='Основные данные']").click();
@@ -80,8 +79,6 @@ public class TextBoxTests {
         $x("//*[contains(text(), 'Тип документа')]/..//*[@class = 'radio-group__item radio-group__item--active']").shouldHave(text(DataRusMan.PASSPORT));
 
         $x("//*[@id = 'document.numberPassport']").shouldHave(value(DataRusMan.NUMBERPASSPORT));
-
-
 
 
     }
